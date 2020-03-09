@@ -10,10 +10,7 @@ namespace QAForumAPI.BLL.Repositories
 {
    public interface IUserRepository
     {
-        Task<JsonResult> Login(LoginViewModel loginViewModel);
-        Task<JsonResult> Register(LoginViewModel loginViewModel);        
-        bool IsExistingUser(LoginViewModel viewModel);
-        bool IsValidLogin(LoginViewModel loginViewModel);
+        Task<JsonResult> Login(LoginViewModel loginViewModel);      
         Guid GetCurrentUserId(LoginViewModel loginViewModel);
     }
 }

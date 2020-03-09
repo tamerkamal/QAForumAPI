@@ -29,12 +29,9 @@ namespace QAForumAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options=> {
+            services.AddMvc(options =>
+            {
                 options.EnableEndpointRouting = false;
-            });
-
-            services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
 
             services.AddDbContext<QAForumContext>(options =>
@@ -44,18 +41,8 @@ namespace QAForumAPI
             services.AddControllers();
 
             AddModelServices(services);
-
-           
-            services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
-            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
-            
-
-            services.AddSession(options =>
-            {
-                options.Cookie.Name = ".QAForum.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.IsEssential = true;
-            });
+            AddRepositoryServices(services);
+            AddSession(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,32 +53,37 @@ namespace QAForumAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            //app.UseHttpsRedirection();   
             app.UseSession();
-            //app.UseCors("CorsPolicy");
-            app.UseHttpsRedirection();         
             app.UseStaticFiles();
-            //app.UseAuthorization();
-
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllers();
-            //});
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
-
-            // app.UseRouting();
         }
 
-        void AddModelServices(IServiceCollection services) {
+        void AddModelServices(IServiceCollection services)
+        {
             services.AddTransient<User>();
             services.AddTransient<Question>();
             services.AddTransient<Answer>();
             services.AddTransient<AnswerVote>();
+        }
+        void AddRepositoryServices(IServiceCollection services)
+        {
+            services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
+            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+        }
+        void AddSession(IServiceCollection services)
+        {
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".QAForum.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.IsEssential = true;
+            });
         }
     }
 }
