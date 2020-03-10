@@ -11,14 +11,13 @@ using System.Threading.Tasks;
 
 namespace QAForumAPI.BLL.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UsersRepository : IUsersRepository
     {
         private readonly QAForumContext _context;
-        private readonly IDataRepository<User> _repo;    
-        const string userIdSession = "userIdSession";
-        public UserRepository(
+        private readonly IDataRepository<User> _repo;
+        public UsersRepository(
             IDataRepository<User> repo,
-           // HttpContext httpContext,
+            // HttpContext httpContext,
             QAForumContext context)
         {
             _repo = repo;
@@ -33,7 +32,7 @@ namespace QAForumAPI.BLL.Repositories
                 {
                     await Register(loginViewModel);
 
-                }               
+                }
                 else if (!IsValidLogin(loginViewModel))
                 {
                     return new JsonResult(new { result = "Wrong Username or Passord" });
@@ -58,16 +57,16 @@ namespace QAForumAPI.BLL.Repositories
                     Password = loginViewModel.Password
                 };
                 _repo.Add(user);
-                await _repo.SaveAsync(user);              
+                await _repo.SaveAsync(user);
                 return new JsonResult(new { status = "Registration Succeeded" });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var innerEx = ex.InnerException;
                 throw;
             }
         }
-      
+
 
         public bool IsExistingUser(LoginViewModel viewModel)
         {
@@ -86,7 +85,7 @@ namespace QAForumAPI.BLL.Repositories
             }
         }
 
-        public bool IsValidLogin(LoginViewModel loginViewModel)       
+        public bool IsValidLogin(LoginViewModel loginViewModel)
         {
             try
             {

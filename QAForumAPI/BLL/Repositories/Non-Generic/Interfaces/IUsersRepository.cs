@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace QAForumAPI.BLL.Repositories
 {
-   public interface IUserRepository
+    public interface IUsersRepository
     {
-        Task<JsonResult> Login(LoginViewModel loginViewModel);      
+        Task<JsonResult> Login(LoginViewModel loginViewModel);
         Guid GetCurrentUserId(LoginViewModel loginViewModel);
     }
 }

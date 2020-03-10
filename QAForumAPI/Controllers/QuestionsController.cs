@@ -14,100 +14,135 @@ namespace QAForumAPI.Controllers
     [Produces("application/json")]
     [Route("[controller]")]
     [ApiController]
-    public class QuestionsController : ControllerBase
+    public class QuestionsController : BaseController
     {
-        private readonly QAForumContext _context;
-        private readonly IDataRepository<Question> _repo;
-
-        public QuestionsController(QAForumContext context, IDataRepository<Question> repo)
+        private readonly IQuestionsRepository _repo;
+        public QuestionsController(IQuestionsRepository repo)
         {
-            _context = context;
             _repo = repo;
         }
 
-        // GET: Questions
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
-        {
-            return await _context.Questions.ToListAsync();
-        }
-
-        // GET: Questions/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Question>> GetQuestion([FromRoute] Guid id)
-        {
-            var question = await _context.Questions.FindAsync(id);
-
-            if (question == null)
-            {
-                return NotFound();
-            }
-
-            return  Ok(question);
-        }
-
-        // PUT: Questions/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutQuestion([FromRoute] Guid id,[FromBody] Question question)
-        {
-            if (id != question.QuestionId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(question).State = EntityState.Modified;
-
-            try
-            {
-                _repo.Update(question);
-                var save = await _repo.SaveAsync(question);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!QuestionExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Questions
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Question>> PostQuestion(Question question)
+        //[Route("/questions")]     
+        public async Task<Question> PostQuestion(Question question)
         {
-            _repo.Add(question);
-           var save=  await _repo.SaveAsync(question);
-
-            return CreatedAtAction("GetQuestion", new { id = question.QuestionId }, question);
-        }
-
-        // DELETE: api/Questions/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Question>> DeleteQuestion(Guid id)
-        {
-            var question = await _context.Questions.FindAsync(id);
-            if (question == null)
+            if (!base.IsAuthenticated())
             {
-                return NotFound();
+                throw new Exception(base.NotLoggedInMessage());
             }
-            _repo.Delete(question);
-            var save= await _repo.SaveAsync(question);
-            return question;
+            return await _repo.PostQuestion(question, base.GetCurrentUserId());
         }
 
-        private bool QuestionExists(Guid id)
+        [HttpGet]
+        [Route("/")]
+        [Route("/questions")]
+        public IEnumerable<Question> GetQuestions()
         {
-            return _context.Questions.Any(e => e.QuestionId == id);
+            if (!base.IsAuthenticated())
+            {
+                throw new Exception(base.NotLoggedInMessage());
+            }
+            return _repo.GetQuestions();
         }
+
+        [HttpGet("{questionId}")]
+        public async Task<Question> GetQuestion(Guid questionId)
+        {
+            return await _repo.GetQuestion(questionId);
+        }
+
+        //[HttpPost]
+        //public async Task<Question> PostQuestion(Question question)
+        //{            
+        //    _repo.Add(question);
+        //    await _repo.SaveAsync(question);
+        //    return question;
+        //}
+
+
+        //// GET: Questions
+        //[HttpGet]
+        //[Route("/questions")]
+        //public async Task<ActionResult<IEnumerable<Question>>> GetQuestions()
+        //{
+        //    return await _context.Questions.ToListAsync();
+        //}
+
+        //// GET: Questions/5
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<Question>> GetQuestion([FromRoute] Guid id)
+        //{
+        //    var question = await _context.Questions.FindAsync(id);
+
+        //    if (question == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(question);
+        //}
+
+        //// PUT: Questions/5
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        //// more details see https://aka.ms/RazorPagesCRUD.
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> PutQuestion([FromRoute] Guid id, [FromBody] Question question)
+        //{
+        //    if (id != question.QuestionId)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _context.Entry(question).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        _repo.Update(question);
+        //        var save = await _repo.SaveAsync(question);
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!QuestionExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
+
+        //// POST: api/Questions
+        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        //// more details see https://aka.ms/RazorPagesCRUD.
+        //[HttpPost]
+        //public async Task<Question> PostQuestion(Question question)
+        //{            
+        //    _repo.Add(question);
+        //    await _repo.SaveAsync(question);
+        //    return question;
+        //}
+
+        //// DELETE: api/Questions/5
+        //[HttpDelete("{id}")]
+        //public async Task<ActionResult<Question>> DeleteQuestion(Guid id)
+        //{
+        //    var question = await _context.Questions.FindAsync(id);
+        //    if (question == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    _repo.Delete(question);
+        //    var save = await _repo.SaveAsync(question);
+        //    return question;
+        //}
+
+        //private bool QuestionExists(Guid id)
+        //{
+        //    return _context.Questions.Any(e => e.QuestionId == id);
+        //}
     }
 }

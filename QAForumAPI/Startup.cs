@@ -23,7 +23,6 @@ namespace QAForumAPI
         {
             Configuration = configuration;
         }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -52,7 +51,6 @@ namespace QAForumAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-
             //app.UseHttpsRedirection();   
             app.UseSession();
             app.UseStaticFiles();
@@ -62,6 +60,7 @@ namespace QAForumAPI
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+            //app.UseAuthorization();
         }
 
         void AddModelServices(IServiceCollection services)
@@ -74,14 +73,15 @@ namespace QAForumAPI
         void AddRepositoryServices(IServiceCollection services)
         {
             services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
-            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+            services.AddScoped(typeof(IUsersRepository), typeof(UsersRepository));
+            services.AddScoped(typeof(IQuestionsRepository), typeof(QuestionsRepository));
         }
         void AddSession(IServiceCollection services)
         {
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".QAForum.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromDays(0.5); //long IdleTimeout just for simplicity
                 options.Cookie.IsEssential = true;
             });
         }
