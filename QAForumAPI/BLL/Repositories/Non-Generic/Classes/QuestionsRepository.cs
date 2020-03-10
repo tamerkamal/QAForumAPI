@@ -31,17 +31,38 @@ namespace QAForumAPI.BLL.Repositories
             }
             catch (Exception ex)
             {
-                var innerEx = ex.InnerException;
+                var exMessage = ex.Message;
                 throw;
             }
         }
         public IEnumerable<Question> GetQuestions()
         {
-            return _context.Questions.ToList();
+            try
+            {
+                return _context.Questions.ToList();
+            }
+            catch (Exception ex)
+            {
+                var exMessage = ex.Message;
+                throw;
+            }
         }
         public async Task<Question> GetQuestion(Guid questionId)
         {
-            return await _context.Questions.FindAsync(questionId);
+            try
+            {
+                Question question = await _context.Questions.FindAsync(questionId);
+                if (question == null)
+                {
+                    throw new KeyNotFoundException();
+                }
+                return question;
+            }
+            catch (Exception ex)
+            {
+                var exMessage = ex.Message;
+                throw;
+            }
         }
     }
 }
