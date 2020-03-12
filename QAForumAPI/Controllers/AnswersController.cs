@@ -36,6 +36,7 @@ namespace QAForumAPI.Controllers
         }
 
         [Authenticated]
+        // Post: /answers
         [HttpPost]
         public async Task<JsonResult> PostAnswer(Answer answer)
         {
@@ -44,6 +45,7 @@ namespace QAForumAPI.Controllers
         }
 
         [Authenticated]
+        // Delete: /answers/{answerId}
         [HttpDelete("{answerId}")]
         public async Task<JsonResult> DeleteAnswer(Guid answerId)
         {

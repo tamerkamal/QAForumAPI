@@ -21,17 +21,20 @@ namespace QAForumAPI.Controllers
 
         [Authenticated]
         [HttpPost]
+        // Post: /questions
         public async Task<Question> PostQuestion(Question question)
         {
             return await _repo.PostQuestion(question, base.GetCurrentUserId());
         }
 
+        // Get: /questions
         [HttpGet]
         public IEnumerable<Question> GetQuestions()
         {
             return _repo.GetQuestions();
         }
 
+        // Get: /questions/{questionId}
         [HttpGet("{questionId}")]
         public async Task<Question> GetQuestion(Guid questionId)
         {
@@ -39,6 +42,7 @@ namespace QAForumAPI.Controllers
         }
 
         [Authenticated]
+        // Delete: /questions/questionId
         [HttpDelete("{questionId}")]
         public async Task<JsonResult> DeleteQuestion(Guid questionId)
         {
