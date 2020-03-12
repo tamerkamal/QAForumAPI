@@ -18,8 +18,7 @@ namespace QAForumAPI.Controllers.Security
             }
             catch (Exception ex)
             {
-                string exMessage = ex.Message;
-                throw;
+                throw new Exception(ex.Message);
             }
         }
         protected Guid GetCurrentUserId()
@@ -30,8 +29,7 @@ namespace QAForumAPI.Controllers.Security
             }
             catch (Exception ex)
             {
-                string exMessage = ex.Message;
-                throw;
+                throw new Exception(ex.Message);
             }
         }
         private string GetUserIdSession()
@@ -42,8 +40,7 @@ namespace QAForumAPI.Controllers.Security
             }
             catch (Exception ex)
             {
-                string exMessage = ex.Message;
-                throw;
+                throw new Exception(ex.Message);
             }
         }
     }

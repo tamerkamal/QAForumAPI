@@ -9,8 +9,7 @@ namespace QAForumAPI.BLL.Repositories
 {
     public interface IAnswersRepository
     {
-        Task<JsonResult> PostAnswer(
-            //Guid questionId,
-            Answer answer);
+        Task<JsonResult> PostAnswer(Answer answer);
+        Task<JsonResult> DeleteAnswer(Guid answerId);
     }
 }

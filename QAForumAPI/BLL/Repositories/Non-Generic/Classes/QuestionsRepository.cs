@@ -41,7 +41,7 @@ namespace QAForumAPI.BLL.Repositories
             try
             {
                 return _context.Questions
-                    // .Include(m => m.Answers)
+                    .Include(m => m.Answers)
                     .ToList();
             }
             catch (Exception ex)

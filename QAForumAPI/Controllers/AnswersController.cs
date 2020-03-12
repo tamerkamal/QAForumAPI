@@ -37,15 +37,17 @@ namespace QAForumAPI.Controllers
 
         [Authenticated]
         [HttpPost]
-        //[Route("​/answers​/{questionId}​/answers")]
-        public async Task<JsonResult> PostAnswer(
-            // [FromUri()] Guid questionId,
-            Answer answer)
+        public async Task<JsonResult> PostAnswer(Answer answer)
         {
             answer.UserId = base.GetCurrentUserId();
-            return await _repo.PostAnswer(
-                // questionId, 
-                answer);
+            return await _repo.PostAnswer(answer);
+        }
+
+        [Authenticated]
+        [HttpDelete("{answerId}")]
+        public async Task<JsonResult> DeleteAnswer(Guid answerId)
+        {
+            return await _repo.DeleteAnswer(answerId);
         }
     }
 }

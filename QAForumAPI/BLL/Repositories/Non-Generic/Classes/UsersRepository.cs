@@ -76,12 +76,14 @@ namespace QAForumAPI.BLL.Repositories
                 throw new Exception(ex.Message);
             }
         }
-
         public bool IsValidLogin(LoginViewModel loginViewModel)
         {
             try
             {
-                if (_context.Users.Where(m => m.Username == loginViewModel.Username && m.Password == loginViewModel.Password).Any())
+                if (_context.Users.Where(m => m.Username ==
+                     loginViewModel.Username && m.Password == loginViewModel.Password)
+                    .Any()
+                    )
                 {
                     return true;
                 }
@@ -92,7 +94,6 @@ namespace QAForumAPI.BLL.Repositories
                 throw new Exception(ex.Message);
             }
         }
-
         public Guid GetCurrentUserId(LoginViewModel loginViewModel)
         {
             try

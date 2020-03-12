@@ -32,7 +32,10 @@ namespace QAForumAPI
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            //services.AddControllersWithViews().AddNewtonsoftJson()
+            services.AddControllersWithViews()
+                    .AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling =
+            Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             AddModelServices(services);
             AddRepositoryServices(services);
