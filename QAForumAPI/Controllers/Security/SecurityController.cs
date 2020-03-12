@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace QAForumAPI.Controllers.Security
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class SecurityController : ControllerBase
     {
         protected JsonResult AddUserIdSession(Guid userId)
@@ -16,7 +14,7 @@ namespace QAForumAPI.Controllers.Security
             try
             {
                 HttpContext.Session.SetString("userIdSession", userId.ToString());
-                return new JsonResult(new { result = "added userId to userIdSession Successfully" });
+                return new JsonResult(new { result = "Logged in successfully" });
             }
             catch (Exception ex)
             {
@@ -36,7 +34,7 @@ namespace QAForumAPI.Controllers.Security
                 throw;
             }
         }
-        protected string GetUserIdSession()
+        private string GetUserIdSession()
         {
             try
             {
@@ -47,26 +45,6 @@ namespace QAForumAPI.Controllers.Security
                 string exMessage = ex.Message;
                 throw;
             }
-        }
-        protected bool IsAuthenticated()
-        {
-            try
-            {
-                if (GetUserIdSession() != default)
-                {
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception ex)
-            {
-                string exMessage = ex.Message;
-                throw;
-            }
-        }
-        protected string NotLoggedInMessage()
-        {
-            return "User Not Logged In";
         }
     }
 }

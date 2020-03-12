@@ -1,4 +1,6 @@
-﻿using QAForumAPI.BOL.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using QAForumAPI.BOL.Models;
 using QAForumAPI.DAL;
 using System;
 using System.Collections.Generic;
@@ -31,20 +33,20 @@ namespace QAForumAPI.BLL.Repositories
             }
             catch (Exception ex)
             {
-                var exMessage = ex.Message;
-                throw;
+                throw new Exception(ex.Message);
             }
         }
         public IEnumerable<Question> GetQuestions()
         {
             try
             {
-                return _context.Questions.ToList();
+                return _context.Questions
+                    // .Include(m => m.Answers)
+                    .ToList();
             }
             catch (Exception ex)
             {
-                var exMessage = ex.Message;
-                throw;
+                throw new Exception(ex.Message);
             }
         }
         public async Task<Question> GetQuestion(Guid questionId)
@@ -60,8 +62,25 @@ namespace QAForumAPI.BLL.Repositories
             }
             catch (Exception ex)
             {
-                var exMessage = ex.Message;
-                throw;
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<JsonResult> DeleteQuestion(Guid questionId)
+        {
+            try
+            {
+                Question question = await _context.Questions.FindAsync(questionId);
+                if (question == default)
+                {
+                    throw new KeyNotFoundException();
+                }
+                _repo.Delete(question);
+                await _context.SaveChangesAsync();
+                return new JsonResult(new { message = "Question deleted successfully" });
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

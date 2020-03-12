@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QAForumAPI.BLL.Repositories;
 using QAForumAPI.BOL.Models;
+using QAForumAPI.Filters.Security;
 
 namespace QAForumAPI.Controllers
 {
@@ -18,13 +19,10 @@ namespace QAForumAPI.Controllers
             _repo = repo;
         }
 
+        [Authenticated]
         [HttpPost]
         public async Task<Question> PostQuestion(Question question)
         {
-            if (!base.IsAuthenticated())
-            {
-                throw new Exception(base.NotLoggedInMessage());
-            }
             return await _repo.PostQuestion(question, base.GetCurrentUserId());
         }
 
@@ -38,6 +36,13 @@ namespace QAForumAPI.Controllers
         public async Task<Question> GetQuestion(Guid questionId)
         {
             return await _repo.GetQuestion(questionId);
+        }
+
+        [Authenticated]
+        [HttpDelete("{questionId}")]
+        public async Task<JsonResult> DeleteQuestion(Guid questionId)
+        {
+            return await _repo.DeleteQuestion(questionId);
         }
     }
 }

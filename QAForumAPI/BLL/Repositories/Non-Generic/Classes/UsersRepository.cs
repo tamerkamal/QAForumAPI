@@ -17,12 +17,10 @@ namespace QAForumAPI.BLL.Repositories
         private readonly IDataRepository<User> _repo;
         public UsersRepository(
             IDataRepository<User> repo,
-            // HttpContext httpContext,
             QAForumContext context)
         {
             _repo = repo;
             _context = context;
-            //_httpContext = httpContext;
         }
         public async Task<JsonResult> Login(LoginViewModel loginViewModel)
         {
@@ -41,11 +39,9 @@ namespace QAForumAPI.BLL.Repositories
             }
             catch (Exception ex)
             {
-                var innerEx = ex.InnerException;
-                throw;
+                throw new Exception(ex.Message);
             }
         }
-
         public async Task<JsonResult> Register(LoginViewModel loginViewModel)
         {
             try
@@ -62,12 +58,9 @@ namespace QAForumAPI.BLL.Repositories
             }
             catch (Exception ex)
             {
-                var innerEx = ex.InnerException;
-                throw;
+                throw new Exception(ex.Message);
             }
         }
-
-
         public bool IsExistingUser(LoginViewModel viewModel)
         {
             try
@@ -80,8 +73,7 @@ namespace QAForumAPI.BLL.Repositories
             }
             catch (Exception ex)
             {
-                var innerEx = ex.InnerException;
-                throw;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -97,8 +89,7 @@ namespace QAForumAPI.BLL.Repositories
             }
             catch (Exception ex)
             {
-                var innerEx = ex.InnerException;
-                throw;
+                throw new Exception(ex.Message);
             }
         }
 
@@ -106,12 +97,13 @@ namespace QAForumAPI.BLL.Repositories
         {
             try
             {
-                return _context.Users.Where(m => m.Username == loginViewModel.Username).Select(m => m.UserId).Single();
+                return _context.Users
+                    .Where(m => m.Username == loginViewModel.Username)
+                    .Select(m => m.UserId).Single();
             }
             catch (Exception ex)
             {
-                var innerEx = ex.InnerException;
-                throw;
+                throw new Exception(ex.Message);
             }
         }
     }

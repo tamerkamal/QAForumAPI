@@ -1,7 +1,6 @@
 C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\bin\Debug\netcoreapp3.1\appsettings.Development.json
 C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\bin\Debug\netcoreapp3.1\appsettings.json
 C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
-C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\obj\Debug\netcoreapp3.1\QAForumAPI.csprojAssemblyReference.cache
 C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\obj\Debug\netcoreapp3.1\staticwebassets\QAForumAPI.StaticWebAssets.Manifest.cache
 C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\obj\Debug\netcoreapp3.1\staticwebassets\QAForumAPI.StaticWebAssets.xml
 C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\obj\Debug\netcoreapp3.1\QAForumAPI.AssemblyInfoInputs.cache
@@ -140,4 +139,8 @@ C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\bin\Debug\netcoreapp3.1\
 C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
+C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\obj\Debug\netcoreapp3.1\QAForumAPI.csprojAssemblyReference.cache
+C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
+C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\bin\Debug\netcoreapp3.1\System.Web.Http.dll
+C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Users\Tamer Kamal\source\repos\QAForumAPI\QAForumAPI\obj\Debug\netcoreapp3.1\QAForumAPI.MvcApplicationPartsAssemblyInfo.cache

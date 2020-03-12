@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using QAForumAPI.BLL.Repositories;
 using QAForumAPI.BOL.Models;
 using QAForumAPI.DAL;
@@ -32,6 +31,8 @@ namespace QAForumAPI
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            //services.AddControllersWithViews().AddNewtonsoftJson()
 
             AddModelServices(services);
             AddRepositoryServices(services);
@@ -77,6 +78,7 @@ namespace QAForumAPI
             services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
             services.AddScoped(typeof(IUsersRepository), typeof(UsersRepository));
             services.AddScoped(typeof(IQuestionsRepository), typeof(QuestionsRepository));
+            services.AddScoped(typeof(IAnswersRepository), typeof(AnswersRepository));
         }
         void AddSession(IServiceCollection services)
         {
