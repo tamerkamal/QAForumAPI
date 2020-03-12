@@ -11,5 +11,6 @@ namespace QAForumAPI.BLL.Repositories
     {
         Task<JsonResult> PostAnswer(Answer answer);
         Task<JsonResult> DeleteAnswer(Guid answerId);
+        Task<JsonResult> VoteAnswer(Guid answerId, short voteValue, Guid userId);
     }
 }

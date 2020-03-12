@@ -1,26 +1,10 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using System.Web.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
-////using RouteAttribute = System.Web.Http.RouteAttribute;
-////using FromBodyAttribute = Microsoft.AspNetCore.Mvc.FromBodyAttribute;
-////using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
-//using QAForumAPI.BLL.Repositories;
-//using QAForumAPI.BOL.Models;
-//using QAForumAPI.DAL;
-//using QAForumAPI.Filters.Security;
-////using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QAForumAPI.BLL.Repositories;
 using QAForumAPI.BOL.Models;
 using QAForumAPI.Filters.Security;
-
 
 namespace QAForumAPI.Controllers
 {
@@ -50,6 +34,14 @@ namespace QAForumAPI.Controllers
         public async Task<JsonResult> DeleteAnswer(Guid answerId)
         {
             return await _repo.DeleteAnswer(answerId);
+        }
+
+        [Authenticated]
+        // HttpPut: /answers/{answerId}/{voteValue}
+        [HttpPut("{answerId}/{voteValue}")]
+        public async Task<JsonResult> VoteAnswer(Guid answerId, short voteValue)
+        {
+            return await _repo.VoteAnswer(answerId, voteValue, base.GetCurrentUserId());
         }
     }
 }
