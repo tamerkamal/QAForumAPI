@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QAForumAPI.BLL.Repositories
+namespace QAForumAPI.DAL.Repositories
 {
     public class QuestionsRepository : IQuestionsRepository
     {
@@ -75,7 +75,7 @@ namespace QAForumAPI.BLL.Repositories
                     throw new KeyNotFoundException();
                 }
                 _repo.Delete(question);
-                await _context.SaveChangesAsync();
+                await _repo.SaveAsync(question);
                 return new JsonResult(new { message = "Question deleted successfully" });
             }
             catch (Exception ex)

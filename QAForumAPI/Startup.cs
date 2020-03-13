@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using QAForumAPI.BLL.Repositories;
+using QAForumAPI.DAL.Repositories;
 using QAForumAPI.BOL.Models;
 using QAForumAPI.DAL;
 using QAForumAPI.MiddleWares;
@@ -74,7 +74,7 @@ namespace QAForumAPI
             services.AddTransient<User>();
             services.AddTransient<Question>();
             services.AddTransient<Answer>();
-            services.AddTransient<AnswerVote>();
+            services.AddTransient<Vote>();
         }
         void AddRepositoryServices(IServiceCollection services)
         {
@@ -82,6 +82,7 @@ namespace QAForumAPI
             services.AddScoped(typeof(IUsersRepository), typeof(UsersRepository));
             services.AddScoped(typeof(IQuestionsRepository), typeof(QuestionsRepository));
             services.AddScoped(typeof(IAnswersRepository), typeof(AnswersRepository));
+            services.AddScoped(typeof(IAnswerVotesRepository), typeof(AnswerVotesRepository));
         }
         void AddSession(IServiceCollection services)
         {

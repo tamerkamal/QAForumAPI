@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QAForumAPI.BLL.Repositories
+namespace QAForumAPI.DAL.Repositories
 {
     public interface IUsersRepository
     {

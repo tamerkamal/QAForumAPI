@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace QAForumAPI.BLL.Repositories
+namespace QAForumAPI.DAL.Repositories
 {
     public class UsersRepository : IUsersRepository
     {

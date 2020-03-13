@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using QAForumAPI.BLL.Repositories;
+using QAForumAPI.DAL.Repositories;
 using QAForumAPI.BOL.Models;
 using QAForumAPI.Filters.Security;
 

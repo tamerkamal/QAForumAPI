@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace QAForumAPI.BOL.Models
 {
-    public class AnswerVote
+    [Table("Vote")]
+    public class Vote
     {
         [Key]
         public Guid VoteId { get; set; }

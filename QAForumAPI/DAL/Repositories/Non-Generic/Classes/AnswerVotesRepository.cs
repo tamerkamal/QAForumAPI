@@ -1,68 +1,25 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using QAForumAPI.BOL.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using QAForumAPI.BOL.Models;
-using QAForumAPI.DAL;
 
-namespace QAForumAPI.BLL.Repositories
+namespace QAForumAPI.DAL.Repositories
 {
-    #region Answers
-    public partial class AnswersRepository : IAnswersRepository
+    public class AnswerVotesRepository : IAnswerVotesRepository
     {
         private readonly QAForumContext _context;
-        private readonly IDataRepository<Answer> _repo;
-        public AnswersRepository(QAForumContext context, IDataRepository<Answer> repo)
-        {
-            _context = context;
-            _repo = repo;
-        }
-        public async Task<JsonResult> PostAnswer(Answer answer)
-        {
-            try
-            {
-                answer.AnswerId = Guid.NewGuid();
-                _repo.Add(answer);
-                await _repo.SaveAsync(answer);
-                return new JsonResult(new { message = "Answer sent successfully" });
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public async Task<JsonResult> DeleteAnswer(Guid answerId)
-        {
-            try
-            {
-                Answer answer = await _context.Answers.FindAsync(answerId);
-                if (answer == default)
-                {
-                    throw new KeyNotFoundException();
-                }
-                _repo.Delete(answer);
-                await _context.SaveChangesAsync();
-                return new JsonResult(new { message = "Answer deleted successfully" });
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-    }
-    #endregion
-
-    #region Answer Voting
-    public partial class AnswersRepository
-    {
         private enum VoteEnum
         {
             UpVoted = 1,
             DownVoted = -1,
             UnVoted = 0
+        }
+        public AnswerVotesRepository(QAForumContext context)
+        {
+            _context = context;
         }
         public async Task<JsonResult> VoteAnswer(Guid answerId, string voteType, Guid userId)
         {
@@ -95,16 +52,16 @@ namespace QAForumAPI.BLL.Repositories
                 {
                     throw new KeyNotFoundException();
                 }
-                AnswerVote answerVote = _context.AnswerVotes.Where(m => m.AnswerId == answerId && m.UserId == userId)
+                Vote vote = _context.Votes.Where(m => m.AnswerId == answerId && m.UserId == userId)
                                          .SingleOrDefault();
 
-                if (answerVote == default)
+                if (vote == default)
                 {
                     await CreateVote(answerId, voteValue, userId);
                 }
                 else
                 {
-                    await UpdateVote(answerVote, voteValue);
+                    await UpdateVote(vote, voteValue);
                 }
                 await UpdateAnswerVoteStatus(answer);
                 return new JsonResult(new { message = "Answer" + voteText + "successfully." });
@@ -118,13 +75,13 @@ namespace QAForumAPI.BLL.Repositories
         {
             try
             {
-                AnswerVote answerVote = new AnswerVote
+                Vote vote = new Vote
                 {
                     AnswerId = answerId,
                     VoteValue = voteValue,
                     UserId = userId
                 };
-                _context.AnswerVotes.Add(answerVote);
+                _context.Votes.Add(vote);
                 await _context.SaveChangesAsync();
                 return "vote created";
             }
@@ -133,7 +90,7 @@ namespace QAForumAPI.BLL.Repositories
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<string> UpdateVote(AnswerVote answerVote, short voteValue)
+        public async Task<string> UpdateVote(Vote answerVote, short voteValue)
         {
             try
             {
@@ -177,10 +134,10 @@ namespace QAForumAPI.BLL.Repositories
         {
             try
             {
-                IQueryable<AnswerVote> answerVotes = _context.AnswerVotes.Where(m => m.AnswerId == answerId);
-                if (answerVotes != default)
+                IQueryable<Vote> votes = _context.Votes.Where(m => m.AnswerId == answerId);
+                if (votes != default)
                 {
-                    int answerVoteScore = answerVotes.Sum(m => m.VoteValue);
+                    int answerVoteScore = votes.Sum(m => m.VoteValue);
                     return answerVoteScore;
                 }
                 return 0;
@@ -191,5 +148,4 @@ namespace QAForumAPI.BLL.Repositories
             }
         }
     }
-    #endregion
 }

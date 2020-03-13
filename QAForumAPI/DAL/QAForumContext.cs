@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace QAForumAPI.DAL
 {
-    public class QAForumContext:DbContext
+    public class QAForumContext : DbContext
     {
-        public QAForumContext(DbContextOptions<QAForumContext> options) 
-            : base(options) 
-        { }        
-             public DbSet<User> Users { get; set; }
-             public DbSet<Question> Questions { get; set; }
-             public DbSet<Answer> Answers { get; set; }
-             public DbSet<AnswerVote> AnswerVotes { get; set; }    
+        public QAForumContext(DbContextOptions<QAForumContext> options)
+            : base(options)
+        { }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+        public DbSet<Vote> Votes { get; set; }
     }
 }

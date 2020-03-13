@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using QAForumAPI.BOL.Models;
 
-namespace QAForumAPI.BLL.Repositories
+namespace QAForumAPI.DAL.Repositories
 {
     public interface IQuestionsRepository
     {
