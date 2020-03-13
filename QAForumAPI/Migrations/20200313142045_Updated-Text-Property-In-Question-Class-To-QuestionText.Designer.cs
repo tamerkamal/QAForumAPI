@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QAForumAPI.DAL;
 
 namespace QAForumAPI.Migrations
 {
     [DbContext(typeof(QAForumContext))]
-    partial class QAForumContextModelSnapshot : ModelSnapshot
+    [Migration("20200313142045_Updated-Text-Property-In-Question-Class-To-QuestionText")]
+    partial class UpdatedTextPropertyInQuestionClassToQuestionText
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +59,7 @@ namespace QAForumAPI.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<short>("VoteValue")
+                    b.Property<short>("VoteScore")
                         .HasColumnType("smallint");
 
                     b.HasKey("VoteId");

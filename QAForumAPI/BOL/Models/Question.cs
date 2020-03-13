@@ -12,10 +12,10 @@ namespace QAForumAPI.BOL.Models
         [Key]
         public Guid QuestionId { get; set; }
         [Required]
-        public string Text { get; set; }
+        public string QuestionText { get; set; }
         [Required]
         [ForeignKey("User")]
         public Guid UserId { get; set; }
-        public ICollection<Answer>Answers {get;set;}
+        public ICollection<Answer> Answers { get; set; }
     }
 }

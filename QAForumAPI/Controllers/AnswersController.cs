@@ -37,11 +37,11 @@ namespace QAForumAPI.Controllers
         }
 
         [Authenticated]
-        // HttpPut: /answers/{answerId}/{voteValue}
-        [HttpPut("{answerId}/{voteValue}")]
-        public async Task<JsonResult> VoteAnswer(Guid answerId, short voteValue)
+        // HttpPut: /answers/{answerId}/{voteType}
+        [HttpPut("{answerId}/{voteType}")]
+        public async Task<JsonResult> VoteAnswer(Guid answerId, string voteType)
         {
-            return await _repo.VoteAnswer(answerId, voteValue, base.GetCurrentUserId());
+            return await _repo.VoteAnswer(answerId, voteType, base.GetCurrentUserId());
         }
     }
 }

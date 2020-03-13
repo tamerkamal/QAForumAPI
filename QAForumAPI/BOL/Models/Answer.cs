@@ -10,15 +10,16 @@ namespace QAForumAPI.BOL.Models
     public class Answer
     {
         [Key]
-        public Guid AnswerId { get; set; }       
-        [Required]      
+        public Guid AnswerId { get; set; }
+        [Required]
         public string AnswerText { get; set; }
+        public string VoteStatus { get; set; }
         [Required]
         [ForeignKey("User")]
         public Guid UserId { get; set; }
         [Required]
         [ForeignKey("Question")]
-        public Guid QuestionId { get; set; }      
+        public Guid QuestionId { get; set; }
         public Question Question { get; set; }
     }
 }
