@@ -1,0 +1,373 @@
+{
+	"info": {
+		"_postman_id": "dcb9fb52-2320-4cd0-a113-a8373bdbedfc",
+		"name": "QAForum  API Endpoints Test",
+		"description": "This collection contains unit tests of QAForum api endpoints for the following:\n------------------------------------------------------------------------------------------\na- UsersController:\n-------------------\n1- // Post: /login => Login existing user or Register new user\n--------------------------------------------------------------\nb- QuestionsController:\n-----------------------\n1- // Post: /questions => Adds question  [Authenticated]\n2- // Get: /questions => Gets all questions with their answers.\n3- // Get: /questions/{questionId} => Gets a question\n4- // Delete: /questions/questionId => Deletes a question [Authenticated]\n-------------------------------------------------------------------------\nc- AnswersController:\n---------------------\n1- // Post: /answers  => Adds Question Answer  [Authenticated]\n2- // Delete: /answers/{answerId}  => Deletes question answer  [Authenticated]\n------------------------------------------------------------------------------\nd- AnswerVotesController\n-------------------------\n1- // HttpPut: /answerVotes/{answerId}/{voteType} => Vote an Answer \n   (voteType=[upvote,downvote,unvote])  [Authenticated]\n--------------------------------------------------------------------",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:5000/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "824e0e66-e805-46b6-9656-17ba505b61a7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function(){",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"Samir\",\n    \"password\": \"415\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "D4404AC2-A306-4EC6-BB30-95B713577D76",
+							"disabled": true
+						}
+					]
+				},
+				"description": "if user exists => Login\nelse => register => login"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/questions",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"questionId\": \"9EBBF857-BB48-4FAB-A7C9-8990699FD1CD\",\n    \"questionText\": \"How far is the Sun ?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/questions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"questions"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "D4404AC2-A306-4EC6-BB30-95B713577D76",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Post a Question"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/answers",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"answerId\": \"47DF8E20-3BAE-473C-AD87-029B26889618\",\n    \"questionId\": \"9EBBF857-BB48-4FAB-A7C9-8990699FD1CD\",\n    \"answerText\": \"300 KMs\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/answers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"answers"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "D4404AC2-A306-4EC6-BB30-95B713577D76",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Post Answer"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/answerVotes/47DF8E20-3BAE-473C-AD87-029B26889618/up-vote",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"How far is the mountain ?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/answerVotes/47DF8E20-3BAE-473C-AD87-029B26889618/up-vote",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"answerVotes",
+						"47DF8E20-3BAE-473C-AD87-029B26889618",
+						"up-vote"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "D4404AC2-A306-4EC6-BB30-95B713577D76",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Up-vote answer"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/questions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"questionId\": \"9EBBF857-BB48-4FAB-A7C9-8990699FD1CD\",\n    \"questionText\": \"How far is the Sun ?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/questions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"questions"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "D4404AC2-A306-4EC6-BB30-95B713577D76",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Get Questions with their answers"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/questions/9EBBF857-BB48-4FAB-A7C9-8990699FD1CD",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"questionId\": \"9EBBF857-BB48-4FAB-A7C9-8990699FD1CD\",\n    \"questionText\": \"How far is the Sun ?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/questions/9EBBF857-BB48-4FAB-A7C9-8990699FD1CD",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"questions",
+						"9EBBF857-BB48-4FAB-A7C9-8990699FD1CD"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "D4404AC2-A306-4EC6-BB30-95B713577D76",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/answers/47DF8E20-3BAE-473C-AD87-029B26889618",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"How far is the mountain ?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/answers/47DF8E20-3BAE-473C-AD87-029B26889618",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"answers",
+						"47DF8E20-3BAE-473C-AD87-029B26889618"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "D4404AC2-A306-4EC6-BB30-95B713577D76",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Delete answer"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/questions/9EBBF857-BB48-4FAB-A7C9-8990699FD1CD",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"text\": \"How far is the mountain ?\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/questions/9EBBF857-BB48-4FAB-A7C9-8990699FD1CD",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"questions",
+						"9EBBF857-BB48-4FAB-A7C9-8990699FD1CD"
+					],
+					"query": [
+						{
+							"key": "userId",
+							"value": "D4404AC2-A306-4EC6-BB30-95B713577D76",
+							"disabled": true
+						}
+					]
+				},
+				"description": "Delete question"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4068fd77-45ee-4c3e-8fa2-4ba9124cd259",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4b527d8a-bab0-4a83-9858-60bc40a348c7",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", function(){",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
