@@ -23,10 +23,6 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                //if (question.QuestionId == default)
-                //{
-                //    question.QuestionId = Guid.NewGuid();
-                //}
                 question.UserId = currentUserId;
                 _dbset.Add(question);
                 await _context.SaveChangesAsync();

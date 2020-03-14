@@ -25,7 +25,7 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                if (!IsExistingUser(loginViewModel))
+                if (!IsExistingUsername(loginViewModel))
                 {
                     await Register(loginViewModel);
                 }
@@ -46,7 +46,7 @@ namespace QAForumAPI.DAL.Repositories
             {
                 User user = new User()
                 {
-                    //UserId = Guid.NewGuid(),
+                    UserId = loginViewModel.UserId,
                     Username = loginViewModel.Username,
                     Password = loginViewModel.Password
                 };
@@ -59,11 +59,11 @@ namespace QAForumAPI.DAL.Repositories
                 throw new Exception(ex.Message);
             }
         }
-        public bool IsExistingUser(LoginViewModel viewModel)
+        public bool IsExistingUsername(LoginViewModel viewModel)
         {
             try
             {
-                if (_dbset.Where(m => m.Username == viewModel.Username).Any())
+                if (_dbset.Any(m => m.Username == viewModel.Username))
                 {
                     return true;
                 }
@@ -78,10 +78,7 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                if (_dbset.Where(m => m.Username ==
-                     loginViewModel.Username && m.Password == loginViewModel.Password)
-                    .Any()
-                    )
+                if (_dbset.Any(m => m.UserId == loginViewModel.UserId))
                 {
                     return true;
                 }
