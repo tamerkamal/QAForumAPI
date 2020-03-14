@@ -1,24 +1,14 @@
-"userid": "8548DAB5-9010-4BB7-858B-828B4F3BFACC"
-"username": "Samir",
-  
+"username": "Samir",  
 "password": "415"
 
-"userid": "07F22CAF-9D43-4DCD-A26F-42DF7F4246EA"
-"username": "Aly",
-  
+"username": "Aly",  
 "password": "425"
 
-"userid": "E28B6396-9B89-4E9D-BDB1-433A090EE7C3"
-"username": "Omar",
-  
+"username": "Omar",  
 "password": "435"
 
-"userid": "A3447152-E0B0-46C0-AEC7-E17F6A990C71"
-"username": "Ahmed",
-  
+"username": "Ahmed",  
 "password": "445"
 
-"userid": "F9BF7FC0-EC79-4B19-BF5F-9974062AC13D"
-"username": "Ramy",
-  
+"username": "Ramy",  
 "password": "455"
