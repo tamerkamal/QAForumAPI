@@ -21,8 +21,8 @@ namespace QAForumAPI.Controllers
         [Route("/login")]
         public async Task<JsonResult> Login(LoginViewModel loginViewModel)
         {
-            Guid currentUserId = _repo.GetCurrentUserId(loginViewModel);
             await _repo.Login(loginViewModel);
+            Guid currentUserId = _repo.GetCurrentUserId(loginViewModel);
             return base.AddUserIdSession(currentUserId);
         }
     }

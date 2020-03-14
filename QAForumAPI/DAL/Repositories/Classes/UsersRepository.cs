@@ -46,7 +46,7 @@ namespace QAForumAPI.DAL.Repositories
             {
                 User user = new User()
                 {
-                    UserId = loginViewModel.UserId,
+                    UserId = Guid.NewGuid(),
                     Username = loginViewModel.Username,
                     Password = loginViewModel.Password
                 };
@@ -63,7 +63,7 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                if (_dbset.Any(m => m.Username == viewModel.Username))
+                if (_dbset.Where(m => m.Username == viewModel.Username).Any())
                 {
                     return true;
                 }
@@ -78,7 +78,8 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                if (_dbset.Any(m => m.UserId == loginViewModel.UserId))
+                if (_dbset.Where(m => m.Username == loginViewModel.Username
+                              && m.Password == loginViewModel.Password).Any())
                 {
                     return true;
                 }
