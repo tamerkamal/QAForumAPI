@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QAForumAPI.BOL.Models;
 using QAForumAPI.BOL.ViewModels;
 using QAForumAPI.DAL;
@@ -14,13 +15,11 @@ namespace QAForumAPI.DAL.Repositories
     public class UsersRepository : IUsersRepository
     {
         private readonly QAForumContext _context;
-        private readonly IDataRepository<User> _repo;
-        public UsersRepository(
-            IDataRepository<User> repo,
-            QAForumContext context)
+        private readonly DbSet<User> _dbset;
+        public UsersRepository(QAForumContext context)
         {
-            _repo = repo;
             _context = context;
+            _dbset = _context.Set<User>();
         }
         public async Task<JsonResult> Login(LoginViewModel loginViewModel)
         {
@@ -52,8 +51,8 @@ namespace QAForumAPI.DAL.Repositories
                     Username = loginViewModel.Username,
                     Password = loginViewModel.Password
                 };
-                _repo.Add(user);
-                await _repo.SaveAsync(user);
+                _dbset.Add(user);
+                await _context.SaveChangesAsync();
                 return new JsonResult(new { status = "Registration Succeeded" });
             }
             catch (Exception ex)
@@ -65,7 +64,7 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                if (_context.Users.Where(m => m.Username == viewModel.Username).Any())
+                if (_dbset.Where(m => m.Username == viewModel.Username).Any())
                 {
                     return true;
                 }
@@ -80,7 +79,7 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                if (_context.Users.Where(m => m.Username ==
+                if (_dbset.Where(m => m.Username ==
                      loginViewModel.Username && m.Password == loginViewModel.Password)
                     .Any()
                     )
@@ -98,9 +97,9 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                return _context.Users
-                    .Where(m => m.Username == loginViewModel.Username)
-                    .Select(m => m.UserId).Single();
+                return _dbset.Where(m => m.Username == loginViewModel.Username)
+                             .Select(m => m.UserId)
+                             .Single();
             }
             catch (Exception ex)
             {

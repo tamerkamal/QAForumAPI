@@ -12,11 +12,12 @@ namespace QAForumAPI.DAL.Repositories
     public class QuestionsRepository : IQuestionsRepository
     {
         private readonly QAForumContext _context;
-        private readonly IDataRepository<Question> _repo;
-        public QuestionsRepository(QAForumContext context, IDataRepository<Question> repo)
+        private readonly DbSet<Question> _dbset;
+
+        public QuestionsRepository(QAForumContext context)
         {
             _context = context;
-            _repo = repo;
+            _dbset = _context.Set<Question>();
         }
         public async Task<Question> PostQuestion(Question question, Guid currentUserId)
         {
@@ -27,8 +28,8 @@ namespace QAForumAPI.DAL.Repositories
                     question.QuestionId = Guid.NewGuid();
                 }
                 question.UserId = currentUserId;
-                _repo.Add(question);
-                await _repo.SaveAsync(question);
+                _dbset.Add(question);
+                await _context.SaveChangesAsync();
                 return question;
             }
             catch (Exception ex)
@@ -40,9 +41,7 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                return _context.Questions
-                    .Include(m => m.Answers)
-                    .ToList();
+                return _dbset.Include(m => m.Answers).ToList();
             }
             catch (Exception ex)
             {
@@ -53,7 +52,7 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                Question question = await _context.Questions.FindAsync(questionId);
+                Question question = await _dbset.FindAsync(questionId);
                 if (question == null)
                 {
                     throw new KeyNotFoundException();
@@ -69,13 +68,13 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                Question question = await _context.Questions.FindAsync(questionId);
+                Question question = await _dbset.FindAsync(questionId);
                 if (question == default)
                 {
                     throw new KeyNotFoundException();
                 }
-                _repo.Delete(question);
-                await _repo.SaveAsync(question);
+                _dbset.Remove(question);
+                await _context.SaveChangesAsync();
                 return new JsonResult(new { message = "Question deleted successfully" });
             }
             catch (Exception ex)

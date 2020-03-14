@@ -12,19 +12,19 @@ namespace QAForumAPI.DAL.Repositories
     public partial class AnswersRepository : IAnswersRepository
     {
         private readonly QAForumContext _context;
-        private readonly IDataRepository<Answer> _repo;
-        public AnswersRepository(QAForumContext context, IDataRepository<Answer> repo)
+        private readonly DbSet<Answer> _dbset;
+        public AnswersRepository(QAForumContext context)
         {
             _context = context;
-            _repo = repo;
+            _dbset = _context.Set<Answer>();
         }
         public async Task<JsonResult> PostAnswer(Answer answer)
         {
             try
             {
                 answer.AnswerId = Guid.NewGuid();
-                _repo.Add(answer);
-                await _repo.SaveAsync(answer);
+                _dbset.Add(answer);
+                await _context.SaveChangesAsync();
                 return new JsonResult(new { message = "Answer sent successfully" });
             }
             catch (Exception ex)
@@ -41,8 +41,8 @@ namespace QAForumAPI.DAL.Repositories
                 {
                     throw new KeyNotFoundException();
                 }
-                _repo.Delete(answer);
-                await _repo.SaveAsync(answer);
+                _dbset.Remove(answer);
+                await _context.SaveChangesAsync();
                 return new JsonResult(new { message = "Answer deleted successfully" });
             }
             catch (Exception ex)

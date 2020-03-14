@@ -90,12 +90,12 @@ namespace QAForumAPI.DAL.Repositories
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<string> UpdateVote(Vote answerVote, short voteValue)
+        public async Task<string> UpdateVote(Vote vote, short voteValue)
         {
             try
             {
-                answerVote.VoteValue = voteValue;
-                _context.Entry(answerVote).State = EntityState.Modified;
+                vote.VoteValue = voteValue;
+                _context.Entry(vote).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return "vote updated";
             }

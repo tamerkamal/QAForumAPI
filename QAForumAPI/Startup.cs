@@ -78,7 +78,6 @@ namespace QAForumAPI
         }
         void AddRepositoryServices(IServiceCollection services)
         {
-            services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
             services.AddScoped(typeof(IUsersRepository), typeof(UsersRepository));
             services.AddScoped(typeof(IQuestionsRepository), typeof(QuestionsRepository));
             services.AddScoped(typeof(IAnswersRepository), typeof(AnswersRepository));

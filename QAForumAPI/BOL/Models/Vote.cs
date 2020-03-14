@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace QAForumAPI.BOL.Models
 {
-    [Table("Vote")]
     public class Vote
     {
         [Key]
