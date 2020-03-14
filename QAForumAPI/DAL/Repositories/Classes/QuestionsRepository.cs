@@ -23,10 +23,10 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                if (question.QuestionId == default)
-                {
-                    question.QuestionId = Guid.NewGuid();
-                }
+                //if (question.QuestionId == default)
+                //{
+                //    question.QuestionId = Guid.NewGuid();
+                //}
                 question.UserId = currentUserId;
                 _dbset.Add(question);
                 await _context.SaveChangesAsync();
@@ -48,11 +48,13 @@ namespace QAForumAPI.DAL.Repositories
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<Question> GetQuestion(Guid questionId)
+        public Question GetQuestion(Guid questionId)
         {
             try
             {
-                Question question = await _dbset.FindAsync(questionId);
+                Question question = _dbset.Where(m => m.QuestionId == questionId)
+                                                      .Include(m => m.Answers)
+                                                      .SingleOrDefault();
                 if (question == null)
                 {
                     throw new KeyNotFoundException();

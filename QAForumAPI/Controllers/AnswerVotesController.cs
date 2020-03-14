@@ -22,7 +22,7 @@ namespace QAForumAPI.Controllers
         [Authenticated]
         // HttpPut: /answerVotes/{answerId}/{voteType}
         [HttpPut("{answerId}/{voteType}")]
-        public async Task<JsonResult> VoteAnswer(Guid answerId, string voteType)
+        public async Task<Vote> VoteAnswer(Guid answerId, string voteType)
         {
             return await _repo.VoteAnswer(answerId, voteType, base.GetCurrentUserId());
         }

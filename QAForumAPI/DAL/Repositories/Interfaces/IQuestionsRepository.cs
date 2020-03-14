@@ -10,7 +10,7 @@ namespace QAForumAPI.DAL.Repositories
     {
         Task<Question> PostQuestion(Question question, Guid currentUserId);
         IEnumerable<Question> GetQuestions();
-        Task<Question> GetQuestion(Guid questionId);
+        Question GetQuestion(Guid questionId);
         Task<JsonResult> DeleteQuestion(Guid questionId);
     }
 }

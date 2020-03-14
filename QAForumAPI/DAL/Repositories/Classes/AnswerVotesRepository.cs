@@ -21,30 +21,30 @@ namespace QAForumAPI.DAL.Repositories
         {
             _context = context;
         }
-        public async Task<JsonResult> VoteAnswer(Guid answerId, string voteType, Guid userId)
+        public async Task<Vote> VoteAnswer(Guid answerId, string voteType, Guid userId)
         {
             try
             {
                 short voteValue = 0;
-                string voteText = "";
+                //string voteText = "";
 
                 if (voteType.ToLower() == "upvote" ||
                     voteType.ToLower() == "up-vote")
                 {
                     voteValue = (short)VoteEnum.UpVoted;
-                    voteText = " Up voted ";
+                    //voteText = " Up voted ";
                 }
                 else if (voteType.ToLower() == "downvote" ||
                          voteType.ToLower() == "down-vote")
                 {
                     voteValue = (short)VoteEnum.DownVoted;
-                    voteText = " Down voted ";
+                    // voteText = " Down voted ";
                 }
                 else if (voteType.ToLower() == "unvote" ||
                          voteType.ToLower() == "un-vote")
                 {
                     voteValue = (short)VoteEnum.UnVoted;
-                    voteText = " Unvoted ";
+                    //voteText = " Unvoted ";
                 }
 
                 Answer answer = await _context.Answers.FindAsync(answerId);
@@ -53,25 +53,25 @@ namespace QAForumAPI.DAL.Repositories
                     throw new KeyNotFoundException();
                 }
                 Vote vote = _context.Votes.Where(m => m.AnswerId == answerId && m.UserId == userId)
-                                         .SingleOrDefault();
+                                          .SingleOrDefault();
 
                 if (vote == default)
                 {
-                    await CreateVote(answerId, voteValue, userId);
+                    vote = await CreateVote(answerId, voteValue, userId);
                 }
                 else
                 {
-                    await UpdateVote(vote, voteValue);
+                    vote = await UpdateVote(vote, voteValue);
                 }
                 await UpdateAnswerVoteStatus(answer);
-                return new JsonResult(new { message = "Answer" + voteText + "successfully." });
+                return vote;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<string> CreateVote(Guid answerId, short voteValue, Guid userId)
+        public async Task<Vote> CreateVote(Guid answerId, short voteValue, Guid userId)
         {
             try
             {
@@ -83,21 +83,21 @@ namespace QAForumAPI.DAL.Repositories
                 };
                 _context.Votes.Add(vote);
                 await _context.SaveChangesAsync();
-                return "vote created";
+                return vote;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<string> UpdateVote(Vote vote, short voteValue)
+        public async Task<Vote> UpdateVote(Vote vote, short voteValue)
         {
             try
             {
                 vote.VoteValue = voteValue;
                 _context.Entry(vote).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
-                return "vote updated";
+                return vote;
             }
             catch (Exception ex)
             {

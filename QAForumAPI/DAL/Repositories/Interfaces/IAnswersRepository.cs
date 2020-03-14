@@ -9,7 +9,7 @@ namespace QAForumAPI.DAL.Repositories
 {
     public interface IAnswersRepository
     {
-        Task<JsonResult> PostAnswer(Answer answer);
+        Task<Answer> PostAnswer(Answer answer);
         Task<JsonResult> DeleteAnswer(Guid answerId);
     }
 }

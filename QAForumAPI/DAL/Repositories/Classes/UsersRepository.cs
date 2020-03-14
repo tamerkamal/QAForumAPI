@@ -28,7 +28,6 @@ namespace QAForumAPI.DAL.Repositories
                 if (!IsExistingUser(loginViewModel))
                 {
                     await Register(loginViewModel);
-
                 }
                 else if (!IsValidLogin(loginViewModel))
                 {
@@ -47,7 +46,7 @@ namespace QAForumAPI.DAL.Repositories
             {
                 User user = new User()
                 {
-                    UserId = Guid.NewGuid(),
+                    //UserId = Guid.NewGuid(),
                     Username = loginViewModel.Username,
                     Password = loginViewModel.Password
                 };

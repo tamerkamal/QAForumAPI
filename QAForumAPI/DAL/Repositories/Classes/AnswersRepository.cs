@@ -18,14 +18,14 @@ namespace QAForumAPI.DAL.Repositories
             _context = context;
             _dbset = _context.Set<Answer>();
         }
-        public async Task<JsonResult> PostAnswer(Answer answer)
+        public async Task<Answer> PostAnswer(Answer answer)
         {
             try
             {
-                answer.AnswerId = Guid.NewGuid();
+                //answer.AnswerId = Guid.NewGuid();
                 _dbset.Add(answer);
                 await _context.SaveChangesAsync();
-                return new JsonResult(new { message = "Answer sent successfully" });
+                return answer;
             }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ namespace QAForumAPI.DAL.Repositories
         {
             try
             {
-                Answer answer = await _context.Answers.FindAsync(answerId);
+                Answer answer = await _dbset.FindAsync(answerId);
                 if (answer == default)
                 {
                     throw new KeyNotFoundException();

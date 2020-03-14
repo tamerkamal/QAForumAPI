@@ -9,6 +9,6 @@ namespace QAForumAPI.DAL.Repositories
 {
     public interface IAnswerVotesRepository
     {
-        Task<JsonResult> VoteAnswer(Guid answerId, string voteType, Guid userId);
+        Task<Vote> VoteAnswer(Guid answerId, string voteType, Guid userId);
     }
 }

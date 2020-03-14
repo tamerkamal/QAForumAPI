@@ -20,8 +20,8 @@ namespace QAForumAPI.Controllers
         }
 
         [Authenticated]
-        [HttpPost]
         // Post: /questions
+        [HttpPost]
         public async Task<Question> PostQuestion(Question question)
         {
             return await _repo.PostQuestion(question, base.GetCurrentUserId());
@@ -36,9 +36,9 @@ namespace QAForumAPI.Controllers
 
         // Get: /questions/{questionId}
         [HttpGet("{questionId}")]
-        public async Task<Question> GetQuestion(Guid questionId)
+        public Question GetQuestion(Guid questionId)
         {
-            return await _repo.GetQuestion(questionId);
+            return _repo.GetQuestion(questionId);
         }
 
         [Authenticated]

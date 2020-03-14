@@ -22,7 +22,7 @@ namespace QAForumAPI.Controllers
         [Authenticated]
         // Post: /answers
         [HttpPost]
-        public async Task<JsonResult> PostAnswer(Answer answer)
+        public async Task<Answer> PostAnswer(Answer answer)
         {
             answer.UserId = base.GetCurrentUserId();
             return await _repo.PostAnswer(answer);

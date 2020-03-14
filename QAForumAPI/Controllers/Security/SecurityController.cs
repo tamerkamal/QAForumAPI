@@ -14,7 +14,7 @@ namespace QAForumAPI.Controllers.Security
             try
             {
                 HttpContext.Session.SetString("userIdSession", userId.ToString());
-                return new JsonResult(new { result = "Logged in successfully" });
+                return new JsonResult(new { message = "Logged in successfully" });
             }
             catch (Exception ex)
             {
